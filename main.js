@@ -21,16 +21,16 @@ app.get('/api/customers', async (req, res) => {
     console.log(rows);
 });
 
-// app.post('/api/customer/login', async (req, res) => {
-//     const { email, password} = req.body;
-//     let conn;
-//     conn = await pool.getConnection();
-//     const rows = await conn.query('select email, password from customer where email = ? and password = ?', [email, password])
-//     console.log(rows);
-//     const jsonS = JSON.stringify(rows);
-//     res.writeHead(200, {'Content-Type': 'text/html'});
-//     res.end(jsonS);
-// });
+app.post('/api/customer/login/all', async (req, res) => {
+    const { email, password} = req.body;
+    let conn;
+    conn = await pool.getConnection();
+    const rows = await conn.query('select email, password from customer where email = ? and password = ?', [email, password])
+    console.log(rows);
+    const jsonS = JSON.stringify(rows);
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(jsonS);
+});
 
 app.post('/api/customer/login', async (req, res) => {
     const { email, password } = req.body;
@@ -38,10 +38,14 @@ app.post('/api/customer/login', async (req, res) => {
 
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('SELECT * FROM customer WHERE email = ? AND password = ?', [email, password]);
+        const result = await conn.query('SELECT email, password FROM customer WHERE email = ? AND password = ?', [email, password]);
 
         if (result.length === 1) {
-            res.status(200).json({ message: 'Login successful' });
+            // res.status(200).json({ message: 'Login successful' });
+            console.log(result);
+            const jsonS = JSON.stringify(result);
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(jsonS);
         } else {
             res.status(401).json({ message: 'Login failed' });
         }
