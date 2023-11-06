@@ -65,6 +65,15 @@ app.get('/api/baskets', async (req, res) => {
     console.log(rows);
 });
 
+app.get('/api/product', async (req, res) => {
+    let conn;
+    conn = await pool.getConnection();
+    const rows = await conn.query('select * from product')
+    console.log(rows);
+});
+
+
+
 app.listen('8080', () => {
     console.log('Server is running on port 8080');
 })
