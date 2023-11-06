@@ -41,7 +41,7 @@ app.post('/api/customer/login', async (req, res) => {
         const result = await conn.query('SELECT email, password FROM customer WHERE email = ? AND password = ?', [email, password]);
 
         if (result.length === 1) {
-            // res.status(200).json({ message: 'Login successful' });
+            res.status(200).json({ message: 'Login successful' });
             console.log(result);
             const jsonS = JSON.stringify(result);
             res.writeHead(200, {'Content-Type': 'text/html'});
